@@ -816,9 +816,12 @@
           <a class="btn btn-ink" href="#chapter-2">去看花</a>
         </div>
         <div class="my-filled reveal" id="my-filled" hidden>
-          <div class="my-block">
-            <h3>我喜欢的花</h3>
-            <div class="my-flowers" id="my-flowers"></div>
+          <div class="my-block my-timeline-block">
+            <div class="my-block-head">
+              <h3>花事时间线</h3>
+              <p class="my-summary" id="my-summary"></p>
+            </div>
+            <div class="my-timeline" id="my-timeline"></div>
           </div>
           <div class="my-block">
             <h3>我最近选择的感觉</h3>
@@ -939,6 +942,14 @@
             <div class="lb-ending-actions">
               <button class="collect-btn" id="lightbox-collect" type="button" aria-pressed="false">收进我的花事</button>
               <button class="btn btn-outline" id="lightbox-next-flower" type="button">看下一朵</button>
+            </div>
+            <div class="collect-memory" id="lightbox-memory" hidden>
+              <label for="lightbox-memory-input">写一句你与它的故事</label>
+              <textarea id="lightbox-memory-input" rows="3" placeholder="比如：今天路过花店时，想起你很喜欢桂花。"></textarea>
+              <div class="collect-memory-actions">
+                <button class="btn btn-ink btn-small" id="lightbox-memory-save" type="button">记下来</button>
+                <button class="btn btn-outline btn-small" id="lightbox-memory-cancel" type="button">先不写</button>
+              </div>
             </div>
           </div>
         </div>

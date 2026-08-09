@@ -465,6 +465,15 @@ resultCollect.addEventListener("click", function () {
 /* My huashi */
 var STORAGE_KEY = "huashi-my";
 
+function escapeHtml(value) {
+  return String(value == null ? "" : value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function loadMy() {
   try {
     var data = JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -514,6 +523,13 @@ function saveFeelings(feelings) {
   renderMy();
 }
 
+function findMyEntry(data, name) {
+  for (var i = 0; i < data.flowers.length; i += 1) {
+    if (data.flowers[i].name === name) return data.flowers[i];
+  }
+  return null;
+}
+
 function renderMy() {
   var data = loadMy();
   var empty = document.getElementById("my-empty");
@@ -521,11 +537,108 @@ function renderMy() {
   var hasContent = data.flowers.length > 0 || data.feelings;
   empty.hidden = hasContent;
   filled.hidden = !hasContent;
-  document.getElementById("my-flowers").innerHTML = data.flowers.map(function (entry) {
-    return '<div class="my-flower-item"><strong>' + entry.name + '</strong><span>' + entry.date + '</span><p>' + entry.note + '</p></div>';
+  var timeline = document.getElementById("my-timeline");
+  var summary = document.getElementById("my-summary");
+  var sorted = data.flowers.slice().sort(function (a, b) {
+    if (a.date === b.date) return a.name.localeCompare(b.name, "zh");
+    return a.date < b.date ? -1 : 1;
+  });
+  var todayStr = today();
+  timeline.innerHTML = sorted.map(function (entry) {
+    var visual = FLOWER_VISUALS[entry.name] || {};
+    var image = visual.image
+      ? '<img class="timeline-thumb" src="' + visual.image + '" alt="' + escapeHtml(entry.name) + '">'
+      : "";
+    var mark = entry.date === todayStr ? '<span class="today-mark">今天</span>' : "";
+    return (
+      '<div class="my-timeline-item" data-flower="' + escapeHtml(entry.name) + '">' +
+        '<span class="timeline-dot" aria-hidden="true"></span>' +
+        '<div class="timeline-card">' +
+          '<div class="timeline-top">' + image +
+            '<div class="timeline-head">' +
+              '<p class="timeline-date">' + escapeHtml(entry.date) + mark + '</p>' +
+              '<h4>' + escapeHtml(entry.name) + '</h4>' +
+            '</div>' +
+          '</div>' +
+          '<p class="timeline-note">' + escapeHtml(entry.note || "我想再看看它。") + '</p>' +
+          '<div class="timeline-actions">' +
+            '<button class="text-btn" type="button" data-edit-note="' + escapeHtml(entry.name) + '">补一句</button>' +
+            '<button class="text-btn muted" type="button" data-remove-flower="' + escapeHtml(entry.name) + '">忘记它</button>' +
+          '</div>' +
+          '<div class="timeline-editor" hidden>' +
+            '<textarea aria-label="写一句与这朵花有关的记忆"></textarea>' +
+            '<div class="timeline-editor-actions">' +
+              '<button class="btn btn-ink btn-small" type="button" data-save-note="' + escapeHtml(entry.name) + '">记下来</button>' +
+              '<button class="btn btn-outline btn-small" type="button" data-cancel-note="' + escapeHtml(entry.name) + '">取消</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>'
+    );
   }).join("");
+  summary.textContent = sorted.length
+    ? "从 " + sorted[0].date + " 到 " + sorted[sorted.length - 1].date + "，你与 " + sorted.length + " 朵花有了故事。"
+    : "";
   document.getElementById("my-feelings").textContent = data.feelings || "还没有留下感觉";
 }
+
+function syncCollectionUI() {
+  if (!lightbox.hidden) {
+    var name = document.getElementById("lightbox-name").textContent;
+    var collected = isCollected(name);
+    lightboxCollect.textContent = collected ? "已收入我的花事" : "收进我的花事";
+    lightboxCollect.classList.toggle("saved", collected);
+    var memory = document.getElementById("lightbox-memory");
+    if (memory && !collected) memory.hidden = true;
+  }
+  if (!huashiResult.hidden) {
+    var resultName = document.getElementById("result-name").textContent;
+    var resultCollected = isCollected(resultName);
+    resultCollect.textContent = resultCollected ? "已收入我的花事" : "收进我的花事";
+    resultCollect.classList.toggle("saved", resultCollected);
+  }
+}
+
+document.getElementById("my-timeline").addEventListener("click", function (event) {
+  var btn = event.target.closest("button");
+  if (!btn) return;
+  var entryEl = btn.closest(".my-timeline-item");
+  if (!entryEl) return;
+  var name = entryEl.getAttribute("data-flower");
+  var data = loadMy();
+  var entry = findMyEntry(data, name);
+  var editor = entryEl.querySelector(".timeline-editor");
+  var textarea = entryEl.querySelector("textarea");
+  if (btn.hasAttribute("data-edit-note")) {
+    if (textarea && entry) textarea.value = entry.note || "";
+    editor.hidden = false;
+    if (textarea) textarea.focus();
+    return;
+  }
+  if (btn.hasAttribute("data-cancel-note")) {
+    editor.hidden = true;
+    return;
+  }
+  if (btn.hasAttribute("data-save-note")) {
+    if (entry) {
+      entry.note = textarea.value.trim() || "我想再看看它。";
+      saveMy(data);
+      renderMy();
+      syncCollectionUI();
+    }
+    return;
+  }
+  if (btn.hasAttribute("data-remove-flower")) {
+    if (window.confirm("要忘记这朵花吗？")) {
+      data.flowers = data.flowers.filter(function (flower) {
+        return flower.name !== name;
+      });
+      saveMy(data);
+      renderMy();
+      syncCollectionUI();
+    }
+  }
+});
 
 var lightboxCollect = document.getElementById("lightbox-collect");
 
@@ -538,9 +651,42 @@ function flowerByName(name) {
 
 lightboxCollect.addEventListener("click", function () {
   var name = document.getElementById("lightbox-name").textContent;
-  var added = toggleCollect(name, "我想再看看它。");
-  lightboxCollect.textContent = added ? "已收入我的花事" : "收进我的花事";
-  lightboxCollect.classList.toggle("saved", added);
+  var memory = document.getElementById("lightbox-memory");
+  var input = document.getElementById("lightbox-memory-input");
+  if (isCollected(name)) {
+    var data = loadMy();
+    data.flowers = data.flowers.filter(function (flower) {
+      return flower.name !== name;
+    });
+    saveMy(data);
+    renderMy();
+  } else {
+    toggleCollect(name, "我想再看看它。");
+  }
+  if (memory && input) {
+    input.value = "";
+    memory.hidden = !isCollected(name);
+  }
+  syncCollectionUI();
+  if (memory && input && !memory.hidden) input.focus();
+});
+
+document.getElementById("lightbox-memory-save").addEventListener("click", function () {
+  var name = document.getElementById("lightbox-name").textContent;
+  var input = document.getElementById("lightbox-memory-input");
+  var note = input.value.trim();
+  var data = loadMy();
+  var entry = findMyEntry(data, name);
+  if (entry) {
+    entry.note = note || entry.note || "我想再看看它。";
+    saveMy(data);
+    renderMy();
+  }
+  document.getElementById("lightbox-memory").hidden = true;
+});
+
+document.getElementById("lightbox-memory-cancel").addEventListener("click", function () {
+  document.getElementById("lightbox-memory").hidden = true;
 });
 
 function relatedFlowers(index) {
