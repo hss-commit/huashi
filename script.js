@@ -120,6 +120,15 @@ if ("IntersectionObserver" in window) {
 }
 
 var entries = document.querySelectorAll(".spread, .banner, .card-row, .duo-card");
+entries.forEach(function (entry, index) {
+  var copy = entry.querySelector(".flower-copy, .duo-copy, .banner-copy");
+  if (copy && !copy.querySelector(".flower-index")) {
+    var indexEl = document.createElement("p");
+    indexEl.className = "flower-index";
+    indexEl.textContent = String(index + 1).padStart(2, "0");
+    copy.insertBefore(indexEl, copy.firstChild);
+  }
+});
 var flowers = Array.prototype.slice.call(entries).map(function (entry) {
   var copy = entry.querySelector(".flower-copy, .duo-copy, .banner-copy");
   var nameEl = copy ? copy.querySelector("h3") : null;
