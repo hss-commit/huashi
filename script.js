@@ -436,7 +436,7 @@ function renderBouquetGallery() {
       '<article class="bouquet-plate" data-index="' + index + '">' +
         '<figure class="bouquet-figure">' +
           '<button class="bouquet-open" type="button" data-open-bouquet="' + index + '" aria-label="打开' + escapeHtml(item.name) + '花束档案">' +
-            '<img src="' + item.image + '" alt="' + escapeHtml(item.alt) + '" loading="lazy" decoding="async">' +
+            '<img src="' + item.image + '" alt="' + escapeHtml(item.alt) + '" loading="eager" decoding="async">' +
           '</button>' +
           '<figcaption class="bouquet-number">' + pad(index + 1) + '</figcaption>' +
         '</figure>' +
