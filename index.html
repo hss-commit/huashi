@@ -33,10 +33,8 @@
         <p class="hero-kicker">四季特辑 · 数字花卉杂志</p>
         <h1>花事</h1>
         <p class="hero-sub">花很好看。<br>但你知道它为什么好看吗？</p>
-        <p class="hero-lede">《花事》是一份关于花的视觉小杂志，教你从轮廓、颜色和感受开始看花。</p>
         <div class="hero-actions">
           <a class="btn btn-ink" href="#chapter-1">开始看花</a>
-          <a class="btn btn-ghost" href="#chapter-3">看看送什么花</a>
         </div>
       </div>
     </section>
@@ -742,6 +740,15 @@
             <figcaption>花园混色花束 · 摄影：Salicyna</figcaption>
           </figure>
         </div>
+        <div class="shop-expression reveal">
+          <h3>如果你想表达……</h3>
+          <div class="shop-expression-grid">
+            <div class="expr-row"><span>喜欢</span><strong>玫瑰 / 郁金香</strong></div>
+            <div class="expr-row"><span>感谢</span><strong>向日葵 / 百合</strong></div>
+            <div class="expr-row"><span>思念</span><strong>桂花 / 栀子花</strong></div>
+            <div class="expr-row"><span>祝福</span><strong>绣球 / 向日葵</strong></div>
+          </div>
+        </div>
         <div class="shop-list reveal">
           <div class="shop-list-head">
             <h3>常客名单</h3>
@@ -767,86 +774,57 @@
       <div class="container">
         <div class="guide-head reveal">
           <p class="section-label">第三章 · 花与人的事</p>
-          <h2>你想让 TA 感受到什么？</h2>
-          <p>别急着选花。先想清楚你想表达什么，花只是替你把话说出来。</p>
+          <h2>找到一朵替你说话的花</h2>
+          <p>三步就好：告诉它你想把花意给谁、想说什么、希望是什么感觉。</p>
         </div>
-        <div class="emotion-filter" role="group" aria-label="选择想表达的感受">
-          <button class="emotion-btn active" type="button" data-emotion="love" aria-pressed="true">我喜欢你</button>
-          <button class="emotion-btn" type="button" data-emotion="thanks" aria-pressed="false">谢谢你</button>
-          <button class="emotion-btn" type="button" data-emotion="happy" aria-pressed="false">希望你开心</button>
-          <button class="emotion-btn" type="button" data-emotion="tired" aria-pressed="false">最近辛苦了</button>
-          <button class="emotion-btn" type="button" data-emotion="miss" aria-pressed="false">我想念你</button>
-          <button class="emotion-btn" type="button" data-emotion="words" aria-pressed="false">我不知道该说什么</button>
-          <button class="emotion-btn" type="button" data-emotion="apology" aria-pressed="false">我想道歉</button>
-          <button class="emotion-btn" type="button" data-emotion="congrats" aria-pressed="false">恭喜你</button>
-          <button class="emotion-btn" type="button" data-emotion="safe" aria-pressed="false">祝你平安</button>
-          <button class="emotion-btn" type="button" data-emotion="home" aria-pressed="false">欢迎回家</button>
-          <button class="emotion-btn" type="button" data-emotion="support" aria-pressed="false">我在支持你</button>
-          <button class="emotion-btn" type="button" data-emotion="reunion" aria-pressed="false">好久不见</button>
+        <div class="huashi-test reveal" id="huashi-test">
+          <div class="test-meta">
+            <span class="test-step" id="test-step">01 / 03</span>
+            <h3 id="test-question">你想把这份花意给谁？</h3>
+          </div>
+          <div class="test-options" id="test-options" role="group" aria-label="测试选项"></div>
+          <div class="test-actions">
+            <button class="btn btn-outline" id="test-back" type="button" hidden>上一步</button>
+            <button class="btn btn-ink" id="test-next" type="button" disabled>下一步</button>
+          </div>
         </div>
-        <div class="guide-list reveal">
-          <div class="guide-row active" id="emotion-love">
-            <span class="guide-scene">我喜欢你</span>
-            <span class="guide-flower">玫瑰或红郁金香</span>
-            <span class="guide-reason">红色直接、热烈；郁金香的杯形更含蓄。它的颜色在说“我喜欢你”，它的姿态在说“不急着要答案”。</span>
-          </div>
-          <div class="guide-row" id="emotion-thanks">
-            <span class="guide-scene">谢谢你</span>
-            <span class="guide-flower">向日葵或洋桔梗</span>
-            <span class="guide-reason">向日葵明亮向上，像一句干脆的“谢谢你”；洋桔梗温柔，适合更正式的感谢。</span>
-          </div>
-          <div class="guide-row" id="emotion-happy">
-            <span class="guide-scene">希望你开心</span>
-            <span class="guide-flower">向日葵或雏菊</span>
-            <span class="guide-reason">明黄色调本身就像笑声，轻快、不沉重，看一眼就让人想跟着笑。</span>
-          </div>
-          <div class="guide-row" id="emotion-tired">
-            <span class="guide-scene">最近辛苦了</span>
-            <span class="guide-flower">百合或栀子花</span>
-            <span class="guide-reason">白色安静，香气温柔，像在说“我看到了你的累”。</span>
-          </div>
-          <div class="guide-row" id="emotion-miss">
-            <span class="guide-scene">我想念你</span>
-            <span class="guide-flower">水仙或茉莉</span>
-            <span class="guide-reason">清而近的香气，适合不说出口的想念。</span>
-          </div>
-          <div class="guide-row" id="emotion-words">
-            <span class="guide-scene">我不知道该说什么</span>
-            <span class="guide-flower">雏菊或满天星</span>
-            <span class="guide-reason">不抢话，陪在旁边就好。有时候说不出的话，花会替你说。</span>
-          </div>
-          <div class="guide-row" id="emotion-apology">
-            <span class="guide-scene">我想道歉</span>
-            <span class="guide-flower">白百合或小雏菊</span>
-            <span class="guide-reason">颜色干净，姿态不抢话。花在说“对不起”，也在说“我想和你继续”。</span>
-          </div>
-          <div class="guide-row" id="emotion-congrats">
-            <span class="guide-scene">恭喜你</span>
-            <span class="guide-flower">向日葵或香槟玫瑰</span>
-            <span class="guide-reason">明亮向上，适合庆祝别人做成了一件重要的事；香槟玫瑰比红玫瑰更轻快。</span>
-          </div>
-          <div class="guide-row" id="emotion-safe">
-            <span class="guide-scene">祝你平安</span>
-            <span class="guide-flower">康乃馨或淡色百合</span>
-            <span class="guide-reason">温柔、不打扰，花香不重，适合探望和祝福。</span>
-          </div>
-          <div class="guide-row" id="emotion-home">
-            <span class="guide-scene">欢迎回家</span>
-            <span class="guide-flower">蝴蝶兰或绿植</span>
-            <span class="guide-reason">耐养、长久，像在说“这里一直有个位置给你”。</span>
-          </div>
-          <div class="guide-row" id="emotion-support">
-            <span class="guide-scene">我在支持你</span>
-            <span class="guide-flower">向日葵或小雏菊</span>
-            <span class="guide-reason">向上、不沉重，告诉对方“我站在你这边”。</span>
-          </div>
-          <div class="guide-row" id="emotion-reunion">
-            <span class="guide-scene">好久不见</span>
-            <span class="guide-flower">满天星或洋桔梗</span>
-            <span class="guide-reason">细碎、轻盈，适合重逢时补一句“一直记得你”。</span>
+        <div class="huashi-result reveal" id="huashi-result" hidden>
+          <p class="result-kicker">我们替你选了一朵花</p>
+          <h3 id="result-name"></h3>
+          <img class="result-image" id="result-image" src="" alt="">
+          <p class="result-line" id="result-line"></p>
+          <div class="result-why" id="result-why"></div>
+          <div class="result-alternatives" id="result-alternatives"></div>
+          <div class="result-actions">
+            <button class="btn btn-ink" id="result-collect" type="button">收进我的花事</button>
+            <button class="btn btn-outline" id="result-restart" type="button">重新选择</button>
           </div>
         </div>
         <p class="guide-tip reveal">没有绝对不会错的花，只有没说清楚的表达。拿不准的时候，把想说的话一起带上。</p>
+      </div>
+    </section>
+
+    <section class="section my-huashi" id="my-huashi">
+      <div class="container">
+        <div class="my-head reveal">
+          <p class="section-label">我的花事</p>
+          <h2>你与花的故事</h2>
+        </div>
+        <div class="my-empty reveal" id="my-empty">
+          <p>这里还没有花。</p>
+          <p>也许你可以先去看看，最近哪一朵花让你停留得久一点。</p>
+          <a class="btn btn-ink" href="#chapter-2">去看花</a>
+        </div>
+        <div class="my-filled reveal" id="my-filled" hidden>
+          <div class="my-block">
+            <h3>我喜欢的花</h3>
+            <div class="my-flowers" id="my-flowers"></div>
+          </div>
+          <div class="my-block">
+            <h3>我最近选择的感觉</h3>
+            <p class="my-feelings" id="my-feelings"></p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -915,25 +893,60 @@
       <button class="lightbox-nav lightbox-prev" type="button" data-lightbox-nav="-1" aria-label="上一朵">‹</button>
       <button class="lightbox-nav lightbox-next" type="button" data-lightbox-nav="1" aria-label="下一朵">›</button>
       <div class="lightbox-body">
-        <figure class="lightbox-figure">
-          <img id="lightbox-img" src="" alt="">
-          <figcaption id="lightbox-caption"></figcaption>
-        </figure>
-        <div class="lightbox-info">
-          <p class="lightbox-kicker">仔细看看</p>
-          <h3 id="lightbox-name"></h3>
-          <p class="lightbox-language" id="lightbox-language"></p>
-          <p class="lightbox-story" id="lightbox-story"></p>
-          <div class="lightbox-views" role="group" aria-label="查看方式">
-            <button class="lightbox-view active" type="button" data-view="0">完整花朵</button>
-            <button class="lightbox-view" type="button" data-view="1">局部特写</button>
+        <div class="lightbox-hero">
+          <figure class="lightbox-figure">
+            <img id="lightbox-img" src="" alt="">
+            <figcaption id="lightbox-caption"></figcaption>
+          </figure>
+          <div class="lightbox-hero-copy">
+            <p class="lightbox-latin" id="lightbox-latin"></p>
+            <h3 id="lightbox-name"></h3>
+            <p class="lightbox-quote" id="lightbox-quote"></p>
+            <div class="lightbox-views" role="group" aria-label="查看方式">
+              <button class="lightbox-view active" type="button" data-view="0">完整花朵</button>
+              <button class="lightbox-view" type="button" data-view="1">局部特写</button>
+            </div>
+            <p class="lightbox-hint" id="lightbox-hint"></p>
           </div>
-          <p class="lightbox-hint" id="lightbox-hint"></p>
+        </div>
+        <div class="lightbox-layers">
+          <section class="lb-layer">
+            <h4>形 · 色 · 气</h4>
+            <div class="lb-observe" id="lightbox-observe"></div>
+          </section>
+          <section class="lb-layer">
+            <h4>性格</h4>
+            <p class="lb-personality" id="lightbox-personality"></p>
+          </section>
+          <section class="lb-layer">
+            <h4>编辑手记</h4>
+            <p class="lb-note" id="lightbox-note"></p>
+          </section>
+          <section class="lb-layer">
+            <h4>花语</h4>
+            <p class="lb-language" id="lightbox-language"></p>
+          </section>
+          <section class="lb-layer">
+            <h4>故事</h4>
+            <p class="lb-story" id="lightbox-story"></p>
+          </section>
+          <section class="lb-layer">
+            <h4>你也许会喜欢</h4>
+            <div class="lb-related" id="lightbox-related"></div>
+          </section>
+          <div class="lb-ending">
+            <p>你会把这朵花送给谁？</p>
+            <div class="lb-ending-actions">
+              <button class="collect-btn" id="lightbox-collect" type="button" aria-pressed="false">收进我的花事</button>
+              <button class="btn btn-outline" id="lightbox-next-flower" type="button">看下一朵</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
+  <script src="flowers-data.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
