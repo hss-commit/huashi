@@ -430,7 +430,7 @@ function flowerLine(name) {
 
 function renderBouquetGallery() {
   var gallery = document.getElementById("bouquet-gallery");
-  if (!gallery) return;
+  if (!gallery || gallery.children.length > 0) return;
   gallery.innerHTML = BOUQUETS.map(function (item, index) {
     return (
       '<article class="bouquet-plate" data-index="' + index + '">' +
