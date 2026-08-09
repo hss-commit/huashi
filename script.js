@@ -169,6 +169,22 @@ var flowers = Array.prototype.slice.call(entries).map(function (entry) {
   };
 });
 
+entries.forEach(function (entry, index) {
+  var copy = entry.querySelector(".flower-copy, .duo-copy, .banner-copy");
+  if (!copy || copy.querySelector(".archive-trigger")) return;
+  var nameEl = copy.querySelector("h3");
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "archive-trigger";
+  btn.textContent = "花档案";
+  btn.setAttribute("aria-label", "查看" + (nameEl ? nameEl.textContent.trim() : "这朵花") + "的花档案");
+  btn.addEventListener("click", function () {
+    lastTrigger = btn;
+    openLightbox(index, 0);
+  });
+  copy.appendChild(btn);
+});
+
 var lightbox = document.getElementById("lightbox");
 var lightboxIndex = 0;
 var lightboxImageIndex = 0;
@@ -396,6 +412,42 @@ var BOUQUET_PROMPTS = [
     prompt: "花店橱窗里摆满一束束鲜花，颜色拥挤而有序，玻璃微微反光，傍晚灯光，像路过时忍不住停下的一眼。",
     image: "images/bouquet-shop.jpg",
     alt: "花店橱窗里摆放的许多花束"
+  },
+  {
+    name: "芍药 · 隆重",
+    prompt: "白色与浅粉芍药团成一大束，花瓣层层展开，枝叶低垂，深色背景，柔光从侧面落下，花束丰盛而安静，像一场不用解释的隆重。",
+    image: "images/bouquet-peonies.jpg",
+    alt: "白色与浅粉芍药组成的花束"
+  },
+  {
+    name: "郁金香与丁香 · 春天",
+    prompt: "橙黄郁金香与淡紫丁香交错成束，花头高低错落，浅色桌面，自然晨光，空气里像有一整座花园。",
+    image: "images/bouquet-tulip-lilac.jpg",
+    alt: "郁金香与丁香混合的花束"
+  },
+  {
+    name: "橙色郁金香 · 热烈",
+    prompt: "一束橙色郁金香，花杯半开，颜色明亮但不刺眼，深色桌面，窗光斜照，热烈而克制。",
+    image: "images/bouquet-orange-tulips.jpg",
+    alt: "一束橙色郁金香"
+  },
+  {
+    name: "黄红菊花 · 秋天",
+    prompt: "黄色与红色菊花扎成一大束，花头紧密层叠，暖色背景，午后光线，像秋天把颜色都收进手里。",
+    image: "images/bouquet-chrysanthemums.jpg",
+    alt: "黄色与红色菊花组成的花束"
+  },
+  {
+    name: "田野花束 · 自由",
+    prompt: "一捧野花，白色、黄色与紫色小花挤在一起，枝叶自然蓬松，像刚从田埂上随手剪下，带着风与泥土的气息。",
+    image: "images/bouquet-wildflowers.jpg",
+    alt: "一捧自然蓬松的田野野花"
+  },
+  {
+    name: "罂粟花束 · 记忆",
+    prompt: "一大束东方罂粟，花瓣轻盈半透明，橙红与粉白交错，深色背景，安静而浓烈，像一段记得很深的夏天。",
+    image: "images/bouquet-poppies.jpg",
+    alt: "一大束橙红与粉白相间的罂粟花"
   }
 ];
 
