@@ -433,7 +433,7 @@ function renderBouquetGallery() {
   if (!gallery) return;
   gallery.innerHTML = BOUQUETS.map(function (item, index) {
     return (
-      '<article class="bouquet-plate reveal" data-index="' + index + '">' +
+      '<article class="bouquet-plate" data-index="' + index + '">' +
         '<figure class="bouquet-figure">' +
           '<button class="bouquet-open" type="button" data-open-bouquet="' + index + '" aria-label="打开' + escapeHtml(item.name) + '花束档案">' +
             '<img src="' + item.image + '" alt="' + escapeHtml(item.alt) + '" loading="lazy" decoding="async">' +
