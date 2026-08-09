@@ -1388,29 +1388,131 @@ h2 {
   margin-top: 16px;
 }
 
-.bouquet-grid {
-  display: grid;
-  gap: 18px;
-  grid-template-columns: repeat(3, 1fr);
+.bouquet-gallery {
+  display: flex;
+  gap: 10px;
+  height: 520px;
+  margin-top: 8px;
 }
 
-.bouquet-card {
+.bouquet-panel {
+  background: var(--ink);
   border: 1px solid var(--line);
-  margin: 0;
+  cursor: pointer;
+  flex: 1 1 0;
+  min-width: 0;
   overflow: hidden;
+  position: relative;
+  transition: flex-grow 0.5s ease, border-color 0.3s ease;
 }
 
-.bouquet-card img {
-  aspect-ratio: 4 / 3;
+.bouquet-panel.is-active {
+  flex-grow: 2.6;
+}
+
+.bouquet-panel img {
+  filter: saturate(0.7);
+  height: 100%;
+  left: 0;
   object-fit: cover;
+  position: absolute;
+  top: 0;
+  transition: filter 0.5s ease;
   width: 100%;
 }
 
-.bouquet-card figcaption {
-  border-top: 1px solid var(--line);
-  color: var(--muted);
+.bouquet-panel.is-active img {
+  filter: saturate(1);
+}
+
+.bouquet-shade {
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0) 35%, rgba(20, 20, 20, 0.78) 100%);
+  inset: 0;
+  position: absolute;
+}
+
+.bouquet-panel-copy {
+  bottom: 16px;
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  left: 16px;
+  pointer-events: none;
+  position: absolute;
+  right: 16px;
+}
+
+.bouquet-index {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.bouquet-panel h3 {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.bouquet-prompt {
+  color: rgba(255, 255, 255, 0.94);
+  font-family: Consolas, "SFMono-Regular", "Liberation Mono", Menlo, monospace;
   font-size: 12px;
-  padding: 8px 10px;
+  line-height: 1.75;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.45s ease, opacity 0.45s ease;
+}
+
+.bouquet-panel.is-active .bouquet-prompt {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.prompt-copy {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  color: var(--white);
+  font-size: 12px;
+  margin-top: 2px;
+  max-width: 100%;
+  padding: 7px 11px;
+  pointer-events: auto;
+}
+
+.prompt-copy:hover {
+  background: var(--white);
+  color: var(--ink);
+}
+
+.bouquet-panel:not(.is-active) .bouquet-panel-copy {
+  align-items: center;
+  bottom: 0;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-end;
+  left: 0;
+  padding-bottom: 14px;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
+
+.bouquet-panel:not(.is-active) .bouquet-index,
+.bouquet-panel:not(.is-active) .bouquet-prompt,
+.bouquet-panel:not(.is-active) .prompt-copy {
+  display: none;
+}
+
+.bouquet-panel:not(.is-active) h3 {
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  writing-mode: vertical-rl;
 }
 
 .shop-list {
@@ -2140,8 +2242,39 @@ html.js .reveal.in {
     grid-template-columns: 1fr;
   }
 
-  .bouquet-grid {
-    grid-template-columns: 1fr;
+  .bouquet-gallery {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .bouquet-panel {
+    min-height: 132px;
+  }
+
+  .bouquet-panel.is-active {
+    min-height: 380px;
+  }
+
+  .bouquet-panel:not(.is-active) .bouquet-panel-copy {
+    align-items: flex-start;
+    bottom: 12px;
+    flex-direction: column;
+    justify-content: flex-end;
+    left: 16px;
+    padding-bottom: 0;
+    right: 16px;
+    top: auto;
+    width: auto;
+  }
+
+  .bouquet-panel:not(.is-active) .bouquet-index {
+    display: block;
+  }
+
+  .bouquet-panel:not(.is-active) h3 {
+    font-size: 20px;
+    letter-spacing: 0;
+    writing-mode: horizontal-tb;
   }
 
   .shop-row {

@@ -327,6 +327,161 @@ var FLOWER_VISUALS = {
   "绣球": { latin: "Hydrangea", image: "images/mixed-bouquet.jpg" }
 };
 
+var BOUQUET_PROMPTS = [
+  {
+    name: "红玫瑰 · 告白",
+    prompt: "一束浓烈的红玫瑰，花瓣层叠舒展，深绿叶片衬底，暖白背景，柔和晨光从左上落下，花束占据画面三分之二，编辑部风格静物摄影。",
+    image: "images/rose-bouquet.jpg",
+    alt: "一束红玫瑰花束"
+  },
+  {
+    name: "白百合 · 祝福",
+    prompt: "一束白色百合，花头微微张开，青绿花枝收拢成束，米白背景，柔光漫射，安静而郑重，像一句没说出口的祝福。",
+    image: "images/lily-bouquet.jpg",
+    alt: "一束白百合花束"
+  },
+  {
+    name: "玫瑰与康乃馨 · 谢谢",
+    prompt: "红玫瑰与粉康乃馨交错成束，颜色温和，叶片簇拥，浅灰背景，自然窗光，整体克制而温暖。",
+    image: "images/carnation-bouquet.jpg",
+    alt: "玫瑰与康乃馨混合花束"
+  },
+  {
+    name: "向日葵与玫瑰 · 开心",
+    prompt: "粉色玫瑰与向日葵组成花束，金色花盘最亮，粉与黄碰撞，暖色背景，明亮日光，画面轻快得像一句祝福。",
+    image: "images/sunflower-bouquet.jpg",
+    alt: "粉色玫瑰与向日葵组成的花束"
+  },
+  {
+    name: "洋桔梗 · 真诚",
+    prompt: "浅粉与白色洋桔梗扎成一束，花瓣薄而层叠，像纸张，浅绿细枝穿插，留白背景，柔光近摄。",
+    image: "images/lisianthus-bouquet.jpg",
+    alt: "浅粉与白色洋桔梗花束"
+  },
+  {
+    name: "花园混色 · 圆满",
+    prompt: "多种花园花卉混成一束，粉、白、黄、紫交错，枝叶丰盛，桌面有倒影，自然窗光，像刚从花园剪下。",
+    image: "images/mixed-bouquet.jpg",
+    alt: "花园混色花束"
+  },
+  {
+    name: "丁香花束 · 春日",
+    prompt: "一束淡紫色丁香，小花簇拥成圆锥，瓶中的枝条自然垂落，米白墙面，清晨侧光，安静而有春日气息。",
+    image: "images/hero.jpg",
+    alt: "一束淡紫色的丁香花，安静地插在瓶中"
+  },
+  {
+    name: "盛放花束 · 日常",
+    prompt: "满满一束各色鲜花，花头挤在一起，简单包装纸包住花脚，放在木桌上，午后室内光，日常却丰盛。",
+    image: "images/bouquet-bloom.jpg",
+    alt: "一束花头饱满的各色鲜花"
+  },
+  {
+    name: "层叠新娘花束 · 郑重",
+    prompt: "白色与奶油色花材层层垂落，长枝与叶形成瀑布状，像新娘手捧，柔焦背景，郑重又轻盈。",
+    image: "images/bouquet-cascading.jpg",
+    alt: "层叠垂落的新娘花束"
+  },
+  {
+    name: "花店橱窗 · 路过",
+    prompt: "花店橱窗里摆满一束束鲜花，颜色拥挤而有序，玻璃微微反光，傍晚灯光，像路过时忍不住停下的一眼。",
+    image: "images/bouquet-shop.jpg",
+    alt: "花店橱窗里摆放的许多花束"
+  }
+];
+
+var BOUQUET_DEFAULT_INDEX = 3;
+
+function renderBouquetGallery() {
+  var gallery = document.getElementById("bouquet-gallery");
+  if (!gallery) return;
+  gallery.innerHTML = BOUQUET_PROMPTS.map(function (item, index) {
+    var active = index === BOUQUET_DEFAULT_INDEX;
+    return (
+      '<article class="bouquet-panel' + (active ? " is-active" : "") + '" role="listitem" tabindex="0" aria-expanded="' + active + '" data-index="' + index + '">' +
+        '<img src="' + item.image + '" alt="' + escapeHtml(item.alt) + '" loading="lazy" decoding="async">' +
+        '<div class="bouquet-shade" aria-hidden="true"></div>' +
+        '<div class="bouquet-panel-copy">' +
+          '<span class="bouquet-index">' + String(index + 1).padStart(2, "0") + '</span>' +
+          '<h3>' + escapeHtml(item.name) + '</h3>' +
+          '<p class="bouquet-prompt">' + escapeHtml(item.prompt) + '</p>' +
+          '<button class="prompt-copy" type="button" data-copy-index="' + index + '">复制提示词</button>' +
+        '</div>' +
+      '</article>'
+    );
+  }).join("");
+}
+
+function setActiveBouquet(index) {
+  document.querySelectorAll(".bouquet-panel").forEach(function (panel) {
+    var active = Number(panel.getAttribute("data-index")) === index;
+    panel.classList.toggle("is-active", active);
+    panel.setAttribute("aria-expanded", String(active));
+  });
+}
+
+function fallbackCopyText(text, done) {
+  var area = document.createElement("textarea");
+  area.value = text;
+  area.setAttribute("readonly", "");
+  area.style.position = "fixed";
+  area.style.opacity = "0";
+  document.body.appendChild(area);
+  area.select();
+  try {
+    document.execCommand("copy");
+    done();
+  } catch (e) {}
+  document.body.removeChild(area);
+}
+
+function initBouquetGallery() {
+  var gallery = document.getElementById("bouquet-gallery");
+  if (!gallery) return;
+  gallery.querySelectorAll(".bouquet-panel").forEach(function (panel) {
+    panel.addEventListener("mouseenter", function () {
+      setActiveBouquet(Number(panel.getAttribute("data-index")));
+    });
+  });
+  gallery.addEventListener("click", function (event) {
+    var copyBtn = event.target.closest("[data-copy-index]");
+    if (copyBtn) {
+      event.stopPropagation();
+      var prompt = BOUQUET_PROMPTS[Number(copyBtn.getAttribute("data-copy-index"))].prompt;
+      var done = function () {
+        copyBtn.textContent = "已复制";
+        window.setTimeout(function () {
+          copyBtn.textContent = "复制提示词";
+        }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(prompt).then(done, function () {
+          fallbackCopyText(prompt, done);
+        });
+      } else {
+        fallbackCopyText(prompt, done);
+      }
+      return;
+    }
+    var panel = event.target.closest(".bouquet-panel");
+    if (panel) setActiveBouquet(Number(panel.getAttribute("data-index")));
+  });
+  gallery.addEventListener("focusin", function (event) {
+    var panel = event.target.closest(".bouquet-panel");
+    if (panel) setActiveBouquet(Number(panel.getAttribute("data-index")));
+  });
+  gallery.addEventListener("keydown", function (event) {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    var panel = event.target.closest(".bouquet-panel");
+    if (!panel) return;
+    event.preventDefault();
+    setActiveBouquet(Number(panel.getAttribute("data-index")));
+  });
+}
+
+renderBouquetGallery();
+initBouquetGallery();
+
 var huashiTest = document.getElementById("huashi-test");
 var huashiResult = document.getElementById("huashi-result");
 var testStepEl = document.getElementById("test-step");
